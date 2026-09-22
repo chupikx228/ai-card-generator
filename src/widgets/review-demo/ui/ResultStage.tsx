@@ -22,7 +22,7 @@ export const ResultStage = () => {
         <h3 className="font-serif text-2xl font-semibold text-foreground">Колоду пройдено</h3>
         {deck.mode === 'qa' ? (
           <p className="mt-1 text-[15px] text-muted">
-            {deck.cards.length} карток у колоді «{deck.title}». FSRS призначив би кожній свій наступний показ.
+            {deck.cards.length} карток у колоді «{deck.title}».
           </p>
         ) : null}
         {deck.mode === 'flip' ? (
