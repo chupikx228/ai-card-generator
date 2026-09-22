@@ -6,6 +6,7 @@ import {
   RepeatIcon,
   SparklesIcon,
 } from '@/shared/ui/icon'
+import { FeatureCard } from '@/shared/ui/feature-card'
 
 type Feature = {
   icon: ComponentType<SVGProps<SVGSVGElement>>
@@ -51,16 +52,9 @@ export const FeatureList = () => (
     </div>
 
     <ul className="mx-auto mt-8 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {features.map(({ icon: Icon, title, description }) => (
-        <li
-          key={title}
-          className="rounded-card border border-border bg-surface p-6 shadow-card"
-        >
-          <span className="inline-flex size-11 items-center justify-center rounded-card bg-primary-soft text-accent">
-            <Icon className="size-6" />
-          </span>
-          <h3 className="mt-4 text-lg font-semibold text-foreground">{title}</h3>
-          <p className="mt-2 text-[15px] leading-6 text-muted">{description}</p>
+      {features.map(({ icon, title, description }) => (
+        <li key={title}>
+          <FeatureCard icon={icon} title={title} description={description} className="h-full" />
         </li>
       ))}
     </ul>
