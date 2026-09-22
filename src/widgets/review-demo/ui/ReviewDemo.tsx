@@ -14,9 +14,6 @@ export const ReviewDemo = () => {
         <h2 className="mt-2 font-serif text-3xl font-semibold text-foreground sm:text-4xl">
           Обери тип колоди й повтори її просто зараз
         </h2>
-        <p className="mt-3 text-[15px] text-muted">
-          Демо працює на локальних мок-даних, без ключів і без мережі.
-        </p>
       </div>
 
       <Backdrop className="mx-auto mt-8 max-w-xl rounded-sheet">
