@@ -1,12 +1,17 @@
 import { create } from 'zustand'
-import type { Deck, ReviewMode } from '@/entities/deck'
+import type { Deck, DeckLanguage, ReviewMode } from '@/entities/deck'
 import type { Rating } from '@/entities/card'
-import { generateDeck } from '@/features/generate-deck'
+import { DEFAULT_CARD_COUNT, requestDeckGeneration } from '@/features/generate-deck'
+import { ApiError, CLIENT_ERROR_CODES } from '@/shared/api'
 
 export type SessionStatus = 'idle' | 'generating' | 'reviewing' | 'done'
 
 type SessionState = {
   mode: ReviewMode
+  topic: string
+  language: DeckLanguage
+  count: number
+  errorCode: string | null
   deck: Deck | null
   index: number
   revealed: boolean
@@ -15,6 +20,9 @@ type SessionState = {
   lastCorrect: boolean | null
   status: SessionStatus
   setMode: (mode: ReviewMode) => void
+  setTopic: (topic: string) => void
+  setLanguage: (language: DeckLanguage) => void
+  setCount: (count: number) => void
   generate: () => Promise<void>
   reveal: () => void
   flip: () => void
@@ -34,20 +42,39 @@ const cardState = {
 
 export const useSessionStore = create<SessionState>((set, get) => ({
   mode: 'flip',
+  topic: '',
+  language: 'uk',
+  count: DEFAULT_CARD_COUNT,
+  errorCode: null,
   deck: null,
   ...cardState,
   status: 'idle',
 
   setMode: (mode) => set({ mode }),
 
+  setTopic: (topic) => set({ topic }),
+
+  setLanguage: (language) => set({ language }),
+
+  setCount: (count) => set({ count }),
+
   generate: async () => {
-    if (get().status === 'generating') {
+    const { status, topic, mode, language, count } = get()
+    if (status === 'generating') {
       return
     }
 
-    set({ status: 'generating' })
-    const deck = await generateDeck(get().mode)
-    set({ deck, ...cardState, status: 'reviewing' })
+    set({ status: 'generating', errorCode: null })
+
+    try {
+      const deck = await requestDeckGeneration({ topic: topic.trim(), mode, language, count })
+      set({ deck, ...cardState, status: 'reviewing' })
+    } catch (error) {
+      set({
+        status: 'idle',
+        errorCode: error instanceof ApiError ? error.code : CLIENT_ERROR_CODES.unknown,
+      })
+    }
   },
 
   reveal: () => set({ revealed: true }),
