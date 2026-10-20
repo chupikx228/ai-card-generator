@@ -1,0 +1,23 @@
+{
+  "name": "deckly-graphql",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --env-file-if-exists=.env index.ts",
+    "start": "node --env-file-if-exists=.env index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@apollo/server": "^5.5.1",
+    "bcryptjs": "^3.0.3",
+    "graphql": "^16.14.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.11.2"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
+  }
+}
