@@ -1,10 +1,14 @@
 import { useThemeStore } from '@/app/providers/theme'
+import { useAuthStore } from '@/features/auth'
+import { ROUTES } from '@/shared/lib/hash-route'
 import { Button } from '@/shared/ui/button'
 import { MoonIcon, SparklesIcon, SunIcon } from '@/shared/ui/icon'
 
 export const SiteHeader = () => {
   const theme = useThemeStore((state) => state.theme)
   const toggle = useThemeStore((state) => state.toggle)
+  const user = useAuthStore((state) => state.user)
+  const logout = useAuthStore((state) => state.logout)
 
   return (
     <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-[24px] backdrop-saturate-150">
@@ -25,6 +29,22 @@ export const SiteHeader = () => {
           >
             {theme === 'dark' ? <SunIcon className="size-5" /> : <MoonIcon className="size-5" />}
           </button>
+          {user ? (
+            <>
+              <span className="hidden max-w-40 truncate text-[15px] font-semibold text-foreground sm:block">
+                {user.name}
+              </span>
+              <Button variant="ghost" size="md" onClick={logout}>
+                Вийти
+              </Button>
+            </>
+          ) : (
+            <a href={ROUTES.login}>
+              <Button variant="ghost" size="md" tabIndex={-1}>
+                Увійти
+              </Button>
+            </a>
+          )}
           <a href="#demo" className="hidden sm:block">
             <Button size="md">Спробувати</Button>
           </a>

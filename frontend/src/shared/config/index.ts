@@ -1,1 +1,1 @@
-export { API_URL } from './env'
+export { API_URL, GRAPHQL_URL } from './env'
