@@ -1,13 +1,7 @@
 import { useSyncExternalStore } from 'react'
+import { matchRoute, type Route, ROUTES } from '@/shared/config'
 
-export const ROUTES = {
-  home: '#/',
-  login: '#/login',
-} as const
-
-export type Route = keyof typeof ROUTES
-
-const readRoute = (): Route => (window.location.hash.startsWith(ROUTES.login) ? 'login' : 'home')
+const readRoute = (): Route => matchRoute(window.location.hash)
 
 const subscribe = (onChange: () => void): (() => void) => {
   window.addEventListener('hashchange', onChange)

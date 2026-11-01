@@ -1,6 +1,6 @@
 import { useThemeStore } from '@/app/providers/theme'
 import { useAuthStore } from '@/features/auth'
-import { ROUTES } from '@/shared/lib/hash-route'
+import { ROUTES } from '@/shared/config'
 import { Button } from '@/shared/ui/button'
 import { MoonIcon, SparklesIcon, SunIcon } from '@/shared/ui/icon'
 
@@ -17,10 +17,16 @@ export const SiteHeader = () => {
           <span className="inline-flex size-9 items-center justify-center rounded-card bg-primary text-primary-foreground">
             <SparklesIcon className="size-5" />
           </span>
-          <span className="text-lg font-bold tracking-[-0.01em] text-foreground">Deckly</span>
+          <span className="text-lg font-bold tracking-[-0.01em] text-foreground max-sm:hidden">Deckly</span>
         </a>
 
         <div className="flex items-center gap-2">
+          <a
+            href={ROUTES.cards}
+            className="whitespace-nowrap rounded-card px-3 py-2 text-[15px] font-semibold text-foreground transition hover:bg-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          >
+            Мої картки
+          </a>
           <button
             type="button"
             onClick={toggle}
