@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react'
+import type { SubmitEvent } from 'react'
 import {
   cardCountOptions,
   deckTypes,
@@ -48,7 +48,7 @@ export const GenerateForm = () => {
     }
   }
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (topicReady) {
       void generate()

@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from 'react'
+import { type SubmitEvent, useState } from 'react'
 import { useAuthStore } from '@/features/auth'
 import { navigate } from '@/shared/lib/hash-route'
 import { Backdrop } from '@/shared/ui/backdrop'
@@ -43,7 +43,7 @@ export const AuthPage = () => {
     clearError()
   }
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!ready) {
       return
