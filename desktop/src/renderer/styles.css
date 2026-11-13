@@ -1,0 +1,62 @@
+@import 'tailwindcss';
+@import '../../../shared/theme/palette.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-topic-english: var(--rating-easy);
+
+  --font-serif: 'Literata Variable', Georgia, serif;
+  --font-sans: 'Manrope Variable', system-ui, -apple-system, sans-serif;
+
+  --shadow-card: 0 1px 2px rgba(11, 13, 18, 0.04), 0 8px 24px rgba(11, 13, 18, 0.06);
+  --shadow-lift: 0 2px 4px rgba(11, 13, 18, 0.05), 0 18px 40px rgba(11, 13, 18, 0.12);
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+  }
+
+  input,
+  textarea,
+  select {
+    user-select: text;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+@utility drag-region {
+  -webkit-app-region: drag;
+}
+
+@utility no-drag {
+  -webkit-app-region: no-drag;
+}
