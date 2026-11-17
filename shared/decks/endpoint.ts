@@ -15,6 +15,7 @@ export const CLIENT_ERROR_CODES = {
   network: 'NETWORK_ERROR',
   invalidResponse: 'INVALID_RESPONSE',
   unknown: 'UNKNOWN_ERROR',
+  aborted: 'ABORTED',
 } as const
 
 const DEFAULT_MESSAGE = 'Щось пішло не так. Спробуй ще раз.'

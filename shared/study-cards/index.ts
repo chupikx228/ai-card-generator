@@ -14,3 +14,4 @@ export {
 } from './logic'
 export type { CardChanges } from './logic'
 export { cardsOfDeck, createDeck, normalizeLibrary, removeDeck, renameDeck, validateDeckTitle } from './library'
+export { pluralCards } from './text'

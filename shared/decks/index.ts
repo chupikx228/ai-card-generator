@@ -9,3 +9,4 @@ export {
   TOPIC_LIMITS,
 } from './endpoint'
 export { deckToStudyCards } from './convert'
+export { pickDistinct } from './similar'

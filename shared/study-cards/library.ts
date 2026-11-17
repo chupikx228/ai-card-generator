@@ -1,6 +1,9 @@
 import { type CardLibrary, DECK_MESSAGES, type DeckRecord, type StudyCard } from './model'
 
-const newDeckId = (): string => globalThis.crypto.randomUUID()
+const fallbackId = (): string => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`
+
+const newDeckId = (): string =>
+  typeof globalThis.crypto?.randomUUID === 'function' ? globalThis.crypto.randomUUID() : fallbackId()
 
 export const validateDeckTitle = (title: string): string | null => (title.trim() ? null : DECK_MESSAGES.emptyTitle)
 
