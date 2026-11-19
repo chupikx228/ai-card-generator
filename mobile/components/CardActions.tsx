@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import type { StudyCard } from '@shared/study-cards'
+import type { StudyCard } from '@deckly/shared/study-cards'
 import { colors, fonts } from '../theme'
 import { BottomSheet } from './BottomSheet'
 import { ConfirmContent } from './ConfirmDialog'

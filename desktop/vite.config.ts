@@ -9,9 +9,6 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     dedupe: ['react', 'react-dom'],
-    alias: {
-      '@shared': fileURLToPath(new URL('../shared', import.meta.url)),
-    },
   },
   build: {
     outDir: fileURLToPath(new URL('./dist/renderer', import.meta.url)),

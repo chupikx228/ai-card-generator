@@ -1,4 +1,4 @@
-export type { Deck, DeckLanguage, GenerateDeckParams, ReviewMode, StatementCard, TextCard } from './model'
+export type { Deck, DeckLanguage, GenerateDeckParams, ReviewMode, StatementCard, TextCard } from './model.ts'
 export {
   CARD_COUNT_OPTIONS,
   CLIENT_ERROR_CODES,
@@ -7,6 +7,6 @@ export {
   GENERATE_DECK_PATH,
   getGenerationErrorMessage,
   TOPIC_LIMITS,
-} from './endpoint'
-export { deckToStudyCards } from './convert'
-export { pickDistinct } from './similar'
+} from './endpoint.ts'
+export { deckToStudyCards } from './convert.ts'
+export { pickDistinct } from './similar.ts'

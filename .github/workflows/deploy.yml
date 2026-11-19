@@ -17,18 +17,15 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
-          cache-dependency-path: frontend/package-lock.json
-      - run: npm ci
-      - run: npm run build
+      - run: npm ci -w @deckly/shared -w deckly
+      - run: npm test -w @deckly/shared -w deckly
+      - run: npm run build -w deckly
         env:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
           VITE_GRAPHQL_URL: ${{ vars.VITE_GRAPHQL_URL }}

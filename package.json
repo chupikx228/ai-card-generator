@@ -1,0 +1,18 @@
+{
+  "name": "deckly-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "shared",
+    "frontend",
+    "desktop",
+    "mobile"
+  ],
+  "scripts": {
+    "test": "npm test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "start:web": "npm run dev -w deckly",
+    "start:desktop": "npm start -w deckly-desktop",
+    "start:mobile": "npm start -w mobile"
+  }
+}

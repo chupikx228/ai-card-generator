@@ -1,8 +1,9 @@
 import path from 'node:path'
 import { app, BrowserWindow } from 'electron'
-import { openDatabase } from './database'
+import { createRepository } from '@deckly/shared/storage'
+import { openDatabase, toSqlDatabase } from './database'
+import { cancelAllGenerations } from './generate-deck'
 import { registerIpc } from './ipc'
-import { createRepository } from './repository'
 
 const createWindow = (): void => {
   const window = new BrowserWindow({
@@ -24,12 +25,14 @@ const createWindow = (): void => {
   })
 
   window.once('ready-to-show', () => window.show())
+  window.webContents.on('did-start-loading', cancelAllGenerations)
+  window.on('closed', cancelAllGenerations)
   void window.loadFile(path.join(__dirname, '../renderer/index.html'))
 }
 
 void app.whenReady().then(() => {
   const db = openDatabase(app.getPath('userData'))
-  registerIpc(createRepository(db))
+  registerIpc(createRepository(toSqlDatabase(db), { fullText: true }))
   app.once('will-quit', () => db.close())
 
   createWindow()

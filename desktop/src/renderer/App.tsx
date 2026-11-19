@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
-import { CARD_MESSAGES, DECK_MESSAGES, DEFAULT_DECK_TITLE, type StudyCard } from '@shared/study-cards'
+import { CARD_MESSAGES, DECK_MESSAGES, DEFAULT_DECK_TITLE, type StudyCard } from '@deckly/shared/study-cards'
 import type { CardDraft, Scope } from '../ipc/contract'
 import { pluralCards } from './lib/text'
 import type { Notice } from './model/notice'

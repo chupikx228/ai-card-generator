@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
+import { CARD_MESSAGES, countLearned, createCard, filterCards, removeCard, toggleCard, validateCard } from '@deckly/shared/study-cards'
 import { cn } from '@/shared/lib/cn'
 import { SiteFooter } from '@/widgets/site-footer'
 import { SiteHeader } from '@/widgets/site-header'
-import { loadCards, type NewStudyCard, saveCards, type StudyCard } from '../model/study-card'
+import { cardStorage, type NewStudyCard, type StudyCard } from '../model/study-card'
 import { CardForm } from './CardForm'
 import { CardList } from './CardList'
 import { CardsHeader } from './CardsHeader'
@@ -13,44 +14,36 @@ type Message = {
 }
 
 export const CardsPage = () => {
-  const [cards, setCards] = useState<StudyCard[]>(loadCards)
+  const [cards, setCards] = useState<StudyCard[]>(cardStorage.load)
   const [message, setMessage] = useState<Message | null>(null)
   const [search, setSearch] = useState('')
 
   useEffect(() => {
-    saveCards(cards)
+    cardStorage.save(cards)
   }, [cards])
 
   const addCard = (input: NewStudyCard): boolean => {
-    const question = input.question.trim()
-    const answer = input.answer.trim()
-    if (!question) {
-      setMessage({ text: 'Введіть текст питання.', type: 'error' })
+    const error = validateCard(input)
+    if (error) {
+      setMessage({ text: error, type: 'error' })
       return false
     }
-    if (!answer) {
-      setMessage({ text: 'Введіть відповідь.', type: 'error' })
-      return false
-    }
-    setCards([...cards, { ...input, id: Date.now(), question, answer, learned: false }])
-    setMessage({ text: 'Картку додано.', type: 'success' })
+    setCards([...cards, createCard(input)])
+    setMessage({ text: CARD_MESSAGES.added, type: 'success' })
     return true
   }
 
-  const toggleCard = (id: number) => {
-    setCards(cards.map((card) => (card.id === id ? { ...card, learned: !card.learned } : card)))
+  const handleToggle = (id: number) => {
+    setCards(toggleCard(cards, id))
   }
 
-  const deleteCard = (id: number) => {
-    setCards(cards.filter((card) => card.id !== id))
-    setMessage({ text: 'Картку видалено.', type: 'success' })
+  const handleDelete = (id: number) => {
+    setCards(removeCard(cards, id))
+    setMessage({ text: CARD_MESSAGES.deleted, type: 'success' })
   }
 
-  const learnedCount = cards.filter((card) => card.learned).length
-  const query = search.trim().toLowerCase()
-  const visibleCards = query
-    ? cards.filter((card) => `${card.question} ${card.answer} ${card.topic}`.toLowerCase().includes(query))
-    : cards
+  const learnedCount = countLearned(cards)
+  const visibleCards = filterCards(cards, search)
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -77,8 +70,8 @@ export const CardsPage = () => {
           <CardList
             cards={visibleCards}
             emptyText={cards.length === 0 ? 'Карток поки немає. Додайте першу!' : 'Нічого не знайдено.'}
-            onToggle={toggleCard}
-            onDelete={deleteCard}
+            onToggle={handleToggle}
+            onDelete={handleDelete}
           />
         </div>
       </main>

@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import type { CardDraft } from '@shared/storage'
+import type { CardDraft } from '@deckly/shared/storage'
 import { colors, fonts } from '../theme'
 import { BottomSheet } from './BottomSheet'
 import { PlusIcon } from './PlusIcon'

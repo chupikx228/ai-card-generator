@@ -1,13 +1,21 @@
-import { CARD_MESSAGES, type NewStudyCard, type StudyCard, TOPICS, type Topic } from './model'
+import { CARD_MESSAGES, MAX_CARD_TEXT_LENGTH, type NewStudyCard, type StudyCard, TOPICS, type Topic } from './model.ts'
 
 export const isTopic = (value: string): value is Topic => TOPICS.some((topic) => topic === value)
 
 export const validateCard = (input: NewStudyCard): string | null => {
-  if (!input.question.trim()) {
+  const question = input.question.trim()
+  const answer = input.answer.trim()
+  if (!question) {
     return CARD_MESSAGES.emptyQuestion
   }
-  if (!input.answer.trim()) {
+  if (question.length > MAX_CARD_TEXT_LENGTH) {
+    return CARD_MESSAGES.questionTooLong
+  }
+  if (!answer) {
     return CARD_MESSAGES.emptyAnswer
+  }
+  if (answer.length > MAX_CARD_TEXT_LENGTH) {
+    return CARD_MESSAGES.answerTooLong
   }
   return null
 }

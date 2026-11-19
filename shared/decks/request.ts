@@ -1,6 +1,6 @@
-import { CLIENT_ERROR_CODES, GENERATE_DECK_PATH, TOPIC_LIMITS } from './endpoint'
-import type { Deck, GenerateDeckParams } from './model'
-import { apiErrorBodySchema, deckSchema } from './schema'
+import { CLIENT_ERROR_CODES, GENERATE_DECK_PATH, TOPIC_LIMITS } from './endpoint.ts'
+import type { Deck, GenerateDeckParams } from './model.ts'
+import { apiErrorBodySchema, deckSchema } from './schema.ts'
 
 export type GenerateDeckResult = { ok: true; deck: Deck } | { ok: false; code: string }
 

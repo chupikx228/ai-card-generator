@@ -1,5 +1,17 @@
-import type { Deck, GenerateDeckParams } from '@shared/decks'
-import type { DeckRecord, NewStudyCard, StudyCard } from '@shared/study-cards'
+import type { GenerateDeckParams } from '@deckly/shared/decks'
+import type { GenerateDeckResult } from '@deckly/shared/decks/request'
+import type { StudyCard } from '@deckly/shared/study-cards'
+import type {
+  AddCardsResult,
+  CardDraft,
+  CardsPage,
+  CardsQuery,
+  CreateDeckResult,
+  DeckSummary,
+  Done,
+  Scope,
+  Stats,
+} from '@deckly/shared/storage'
 
 export const CHANNELS = {
   listDecks: 'decks:list',
@@ -14,43 +26,22 @@ export const CHANNELS = {
   setLearned: 'cards:learned',
   removeCard: 'cards:remove',
   generate: 'decks:generate',
+  cancelGenerate: 'decks:generate:cancel',
 } as const
 
-export type Scope = { kind: 'all' } | { kind: 'deck'; id: string }
-
-export type DeckSummary = DeckRecord & {
-  total: number
-  learned: number
-}
-
-export type Stats = {
-  total: number
-  learned: number
-}
-
-export type CardDraft = Pick<NewStudyCard, 'question' | 'answer'>
-
-export type CardsQuery = {
-  scope: Scope
-  search: string
-  offset: number
-  limit: number
-}
-
-export type CardsPage = {
-  items: StudyCard[]
-  total: number
-}
-
-export type Failure = { ok: false; error: string }
-
-export type Done = { ok: true } | Failure
-
-export type AddCardsResult = { ok: true; deckId: string; added: number } | Failure
-
-export type CreateDeckResult = { ok: true; deck: DeckRecord } | Failure
-
-export type GenerateDeckResult = { ok: true; deck: Deck } | { ok: false; code: string }
+export type {
+  AddCardsResult,
+  CardDraft,
+  CardsPage,
+  CardsQuery,
+  CreateDeckResult,
+  DeckSummary,
+  Done,
+  Failure,
+  Scope,
+  Stats,
+} from '@deckly/shared/storage'
+export type { GenerateDeckResult } from '@deckly/shared/decks/request'
 
 export type CardsAPI = {
   listDecks: () => Promise<DeckSummary[]>
@@ -64,5 +55,6 @@ export type CardsAPI = {
   updateCard: (id: number, draft: CardDraft, deckId: string) => Promise<Done>
   setLearned: (id: number, learned: boolean) => Promise<Done>
   removeCard: (id: number) => Promise<Done>
-  generateDeck: (params: GenerateDeckParams) => Promise<GenerateDeckResult>
+  generateDeck: (params: GenerateDeckParams, requestId: string) => Promise<GenerateDeckResult>
+  cancelGenerate: (requestId: string) => Promise<void>
 }

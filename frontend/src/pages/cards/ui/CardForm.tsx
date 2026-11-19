@@ -1,6 +1,7 @@
 import { type SubmitEvent, useState } from 'react'
 import { Button } from '@/shared/ui/button'
-import { type NewStudyCard, type Topic, TOPICS } from '../model/study-card'
+import { isTopic, TOPICS } from '@deckly/shared/study-cards'
+import type { NewStudyCard, Topic } from '../model/study-card'
 
 type CardFormProps = {
   onAdd: (card: NewStudyCard) => boolean
@@ -8,8 +9,6 @@ type CardFormProps = {
 
 const fieldClass =
   'w-full rounded-card border border-border bg-background px-4 py-3 text-[15px] text-foreground placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background'
-
-const isTopic = (value: string): value is Topic => TOPICS.some((topic) => topic === value)
 
 export const CardForm = ({ onAdd }: CardFormProps) => {
   const [question, setQuestion] = useState('')

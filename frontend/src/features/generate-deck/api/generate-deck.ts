@@ -1,14 +1,8 @@
-import { type Deck, type DeckLanguage, deckSchema, type ReviewMode } from '@/entities/deck'
+import { type Deck, deckSchema } from '@/entities/deck'
 import { postJson } from '@/shared/api'
+import { GENERATE_DECK_PATH, type GenerateDeckParams } from '@deckly/shared/decks'
 
-const GENERATE_DECK_PATH = '/decks/generate'
-
-export type GenerateDeckParams = {
-  topic: string
-  mode: ReviewMode
-  language: DeckLanguage
-  count: number
-}
+export type { GenerateDeckParams } from '@deckly/shared/decks'
 
 export const requestDeckGeneration = (params: GenerateDeckParams): Promise<Deck> =>
   postJson(GENERATE_DECK_PATH, params, deckSchema)

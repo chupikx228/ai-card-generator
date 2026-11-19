@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { normalizeLibrary } from './library'
-import { type CardLibrary, type StudyCard, TOPICS } from './model'
+import { normalizeLibrary } from './library.ts'
+import { type CardLibrary, type StudyCard, TOPICS } from './model.ts'
 
 export const studyCardSchema = z.object({
   id: z.number(),

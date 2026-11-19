@@ -1,4 +1,4 @@
-import type { DeckRecord, NewStudyCard, StudyCard } from '../study-cards/model'
+import type { DeckRecord, NewStudyCard, StudyCard } from '../study-cards/model.ts'
 
 export type Scope = { kind: 'all' } | { kind: 'deck'; id: string }
 

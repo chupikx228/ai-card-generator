@@ -1,5 +1,5 @@
 import { type KeyboardEvent, type SubmitEvent, useState } from 'react'
-import type { StudyCard } from '@shared/study-cards'
+import type { StudyCard } from '@deckly/shared/study-cards'
 import type { CardDraft } from '../../ipc/contract'
 import { Select, type SelectOption } from './Select'
 

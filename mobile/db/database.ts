@@ -1,5 +1,5 @@
 import { openDatabaseSync, type SQLiteDatabase } from 'expo-sqlite'
-import { buildSchema, createRepository, SCHEMA_VERSION, type SqlDatabase, type SqlValue } from '@shared/storage'
+import { buildSchema, createRepository, SCHEMA_VERSION, type SqlDatabase, type SqlValue } from '@deckly/shared/storage'
 
 const transaction = <T>(db: SQLiteDatabase, work: () => T): T => {
   db.execSync('BEGIN')

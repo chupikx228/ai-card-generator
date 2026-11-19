@@ -1,6 +1,6 @@
 import { type ComponentRef, useRef, useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
-import type { CardDraft } from '@shared/storage'
+import type { CardDraft } from '@deckly/shared/storage'
 import { colors, fonts, shadow } from '../theme'
 import { Button } from './Button'
 import { DeckPicker, type PickerOption } from './DeckPicker'

@@ -1,5 +1,5 @@
 import { type KeyboardEvent, type ReactNode, type SubmitEvent, useState } from 'react'
-import { validateCard } from '@shared/study-cards'
+import { validateCard } from '@deckly/shared/study-cards'
 import type { CardDraft } from '../../ipc/contract'
 import { cn } from '../lib/text'
 import { areaClass } from './CardEditor'

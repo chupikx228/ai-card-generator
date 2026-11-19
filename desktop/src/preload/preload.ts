@@ -13,7 +13,8 @@ const cardsAPI: CardsAPI = {
   updateCard: (id, draft, deckId) => ipcRenderer.invoke(CHANNELS.updateCard, id, draft, deckId),
   setLearned: (id, learned) => ipcRenderer.invoke(CHANNELS.setLearned, id, learned),
   removeCard: (id) => ipcRenderer.invoke(CHANNELS.removeCard, id),
-  generateDeck: (params) => ipcRenderer.invoke(CHANNELS.generate, params),
+  generateDeck: (params, requestId) => ipcRenderer.invoke(CHANNELS.generate, params, requestId),
+  cancelGenerate: (requestId) => ipcRenderer.invoke(CHANNELS.cancelGenerate, requestId),
 }
 
 contextBridge.exposeInMainWorld('cardsAPI', cardsAPI)

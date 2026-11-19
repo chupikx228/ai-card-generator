@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
-import { pluralCards } from '@shared/study-cards'
+import { pluralCards } from '@deckly/shared/study-cards'
 import { colors, fonts } from '../theme'
 import { Button } from './Button'
 import { ConfirmDialog } from './ConfirmDialog'

@@ -1,6 +1,6 @@
 import { type ComponentRef, useRef, useState } from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
-import type { DeckSummary, Scope } from '@shared/storage'
+import type { DeckSummary, Scope } from '@deckly/shared/storage'
 import { colors, fonts } from '../theme'
 import { PlusIcon } from './PlusIcon'
 

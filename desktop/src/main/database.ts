@@ -1,52 +1,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { DatabaseSync } from 'node:sqlite'
-import { parseLibrary } from '@shared/study-cards/schema'
-
-const SCHEMA_VERSION = 1
-
-const SCHEMA = `
-  CREATE TABLE IF NOT EXISTS decks (
-    id TEXT PRIMARY KEY,
-    title TEXT NOT NULL,
-    created_at INTEGER NOT NULL,
-    total INTEGER NOT NULL DEFAULT 0,
-    learned INTEGER NOT NULL DEFAULT 0
-  );
-
-  CREATE TABLE IF NOT EXISTS cards (
-    id INTEGER PRIMARY KEY,
-    deck_id TEXT NOT NULL REFERENCES decks(id) ON DELETE CASCADE,
-    question TEXT NOT NULL,
-    answer TEXT NOT NULL,
-    topic TEXT NOT NULL,
-    due_date TEXT NOT NULL DEFAULT '',
-    learned INTEGER NOT NULL DEFAULT 0
-  );
-
-  CREATE INDEX IF NOT EXISTS cards_by_deck ON cards(deck_id, id);
-
-  CREATE VIRTUAL TABLE IF NOT EXISTS cards_fts USING fts5(
-    question, answer, content='cards', content_rowid='id', tokenize='trigram'
-  );
-
-  CREATE TRIGGER IF NOT EXISTS cards_after_insert AFTER INSERT ON cards BEGIN
-    UPDATE decks SET total = total + 1, learned = learned + NEW.learned WHERE id = NEW.deck_id;
-    INSERT INTO cards_fts(rowid, question, answer) VALUES (NEW.id, NEW.question, NEW.answer);
-  END;
-
-  CREATE TRIGGER IF NOT EXISTS cards_after_delete AFTER DELETE ON cards BEGIN
-    UPDATE decks SET total = total - 1, learned = learned - OLD.learned WHERE id = OLD.deck_id;
-    INSERT INTO cards_fts(cards_fts, rowid, question, answer) VALUES ('delete', OLD.id, OLD.question, OLD.answer);
-  END;
-
-  CREATE TRIGGER IF NOT EXISTS cards_after_update AFTER UPDATE ON cards BEGIN
-    UPDATE decks SET total = total - 1, learned = learned - OLD.learned WHERE id = OLD.deck_id;
-    UPDATE decks SET total = total + 1, learned = learned + NEW.learned WHERE id = NEW.deck_id;
-    INSERT INTO cards_fts(cards_fts, rowid, question, answer) VALUES ('delete', OLD.id, OLD.question, OLD.answer);
-    INSERT INTO cards_fts(rowid, question, answer) VALUES (NEW.id, NEW.question, NEW.answer);
-  END;
-`
+import { buildSchema, SCHEMA_VERSION, type SqlDatabase, type SqlValue } from '@deckly/shared/storage'
+import { parseLibrary } from '@deckly/shared/study-cards/schema'
 
 export const transaction = <T>(db: DatabaseSync, work: () => T): T => {
   db.exec('BEGIN')
@@ -59,6 +15,13 @@ export const transaction = <T>(db: DatabaseSync, work: () => T): T => {
     throw error
   }
 }
+
+export const toSqlDatabase = (db: DatabaseSync): SqlDatabase => ({
+  all: <T>(sql: string, params: SqlValue[] = []) => db.prepare(sql).all(...params) as T[],
+  one: <T>(sql: string, params: SqlValue[] = []) => db.prepare(sql).get(...params) as T | undefined,
+  run: (sql: string, params: SqlValue[] = []) => Number(db.prepare(sql).run(...params).changes),
+  transaction: <T>(work: () => T) => transaction(db, work),
+})
 
 const importLegacyJson = (db: DatabaseSync, jsonPath: string): void => {
   if (!fs.existsSync(jsonPath)) {
@@ -98,7 +61,7 @@ export const openDatabase = (dataDir: string): DatabaseSync => {
   const { user_version: version } = db.prepare('PRAGMA user_version').get() as { user_version: number }
   if (version < SCHEMA_VERSION) {
     transaction(db, () => {
-      db.exec(SCHEMA)
+      db.exec(buildSchema(true))
       db.exec(`PRAGMA user_version = ${SCHEMA_VERSION}`)
     })
   }

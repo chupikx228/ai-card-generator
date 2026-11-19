@@ -1,5 +1,7 @@
-export { CARD_MESSAGES, DECK_MESSAGES, DEFAULT_DECK_TITLE, TOPICS } from './model'
-export type { CardLibrary, DeckRecord, NewStudyCard, StudyCard, Topic } from './model'
+export { CARD_MESSAGES, DECK_MESSAGES, DEFAULT_DECK_TITLE, MAX_CARD_TEXT_LENGTH, TOPICS } from './model.ts'
+export { createMemoryStorage } from './storage.ts'
+export type { CardStorage } from './storage.ts'
+export type { CardLibrary, DeckRecord, NewStudyCard, StudyCard, Topic } from './model.ts'
 export {
   countLearned,
   createCard,
@@ -11,7 +13,7 @@ export {
   toggleCard,
   updateCard,
   validateCard,
-} from './logic'
-export type { CardChanges } from './logic'
-export { cardsOfDeck, createDeck, normalizeLibrary, removeDeck, renameDeck, validateDeckTitle } from './library'
-export { pluralCards } from './text'
+} from './logic.ts'
+export type { CardChanges } from './logic.ts'
+export { cardsOfDeck, createDeck, normalizeLibrary, removeDeck, renameDeck, validateDeckTitle } from './library.ts'
+export { pluralCards } from './text.ts'

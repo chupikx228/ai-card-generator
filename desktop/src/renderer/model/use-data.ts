@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { StudyCard } from '@shared/study-cards'
+import type { StudyCard } from '@deckly/shared/study-cards'
 import type { DeckSummary, Scope, Stats } from '../../ipc/contract'
 
 const PAGE_SIZE = 120

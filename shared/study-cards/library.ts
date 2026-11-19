@@ -1,4 +1,4 @@
-import { type CardLibrary, DECK_MESSAGES, type DeckRecord, type StudyCard } from './model'
+import { type CardLibrary, DECK_MESSAGES, type DeckRecord, type StudyCard } from './model.ts'
 
 const fallbackId = (): string => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`
 

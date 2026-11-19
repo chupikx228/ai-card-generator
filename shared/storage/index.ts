@@ -1,6 +1,6 @@
-export { createRepository } from './repository'
-export type { Repository } from './repository'
-export { buildSchema, SCHEMA_VERSION } from './schema'
+export { createRepository } from './repository.ts'
+export type { Repository } from './repository.ts'
+export { buildSchema, SCHEMA_VERSION } from './schema.ts'
 export type {
   AddCardsResult,
   CardDraft,
@@ -14,4 +14,4 @@ export type {
   SqlDatabase,
   SqlValue,
   Stats,
-} from './types'
+} from './types.ts'

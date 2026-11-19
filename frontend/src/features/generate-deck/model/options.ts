@@ -1,4 +1,7 @@
 import type { DeckLanguage, ReviewMode } from '@/entities/deck'
+import { CARD_COUNT_OPTIONS } from '@deckly/shared/decks'
+
+export { DEFAULT_CARD_COUNT, TOPIC_LIMITS } from '@deckly/shared/decks'
 
 export type DeckTypeOption = {
   id: ReviewMode
@@ -21,11 +24,4 @@ export const languageOptions: LanguageOption[] = [
   { id: 'en', label: 'English' },
 ]
 
-export const cardCountOptions = [5, 10, 15]
-
-export const DEFAULT_CARD_COUNT = 10
-
-export const TOPIC_LIMITS = {
-  minLength: 3,
-  maxLength: 200,
-} as const
+export const cardCountOptions: number[] = [...CARD_COUNT_OPTIONS]

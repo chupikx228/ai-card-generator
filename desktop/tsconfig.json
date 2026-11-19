@@ -11,10 +11,8 @@
     "verbatimModuleSyntax": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "types": ["node"],
-    "paths": {
-      "@shared/*": ["../shared/*"]
-    }
+    "allowImportingTsExtensions": true,
+    "types": ["node"]
   },
-  "include": ["src", "vite.config.ts", "vite.main.config.ts", "../shared/study-cards"]
+  "include": ["src", "test", "vite.config.ts", "vite.main.config.ts"]
 }

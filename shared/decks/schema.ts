@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { Deck } from './model'
+import type { Deck } from './model.ts'
 
 const textCardSchema = z.object({
   id: z.string(),

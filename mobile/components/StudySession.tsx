@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { pluralCards, type StudyCard } from '@shared/study-cards'
+import { pluralCards, type StudyCard } from '@deckly/shared/study-cards'
 import { colors, fonts } from '../theme'
 import { Button } from './Button'
 import { AnswerFace, QuestionFace } from './CardFaces'

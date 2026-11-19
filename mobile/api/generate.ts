@@ -6,9 +6,9 @@ import {
   type Deck,
   type DeckLanguage,
   type GenerateDeckParams,
-} from '@shared/decks'
-import { type GenerateDeckResult, requestDeck } from '@shared/decks/request'
-import { deckSchema } from '@shared/decks/schema'
+} from '@deckly/shared/decks'
+import { type GenerateDeckResult, requestDeck } from '@deckly/shared/decks/request'
+import { deckSchema } from '@deckly/shared/decks/schema'
 
 export type GenerateSettings = {
   topic: string

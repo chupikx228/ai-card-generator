@@ -1,5 +1,5 @@
 import { type ReactNode, type UIEvent, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import type { StudyCard } from '@shared/study-cards'
+import type { StudyCard } from '@deckly/shared/study-cards'
 
 type VirtualGridProps = {
   total: number

@@ -1,5 +1,5 @@
 import { memo, useState } from 'react'
-import type { StudyCard } from '@shared/study-cards'
+import type { StudyCard } from '@deckly/shared/study-cards'
 import { AnswerFace, QuestionFace } from './CardFaces'
 import { FlashCard } from './FlashCard'
 

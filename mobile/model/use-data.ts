@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { StudyCard } from '@shared/study-cards'
-import type { DeckSummary, Scope, Stats } from '@shared/storage'
+import type { StudyCard } from '@deckly/shared/study-cards'
+import type { DeckSummary, Scope, Stats } from '@deckly/shared/storage'
 import { repository } from '../db/database'
 
 const PAGE = 60

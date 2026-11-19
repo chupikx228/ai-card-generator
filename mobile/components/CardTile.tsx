@@ -1,6 +1,6 @@
 import { memo, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import type { StudyCard } from '@shared/study-cards'
+import type { StudyCard } from '@deckly/shared/study-cards'
 import { colors, fonts } from '../theme'
 import { CardActions } from './CardActions'
 import { AnswerFace, QuestionFace } from './CardFaces'

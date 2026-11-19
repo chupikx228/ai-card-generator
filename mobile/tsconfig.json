@@ -2,10 +2,8 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
-    "types": ["node"],
-    "paths": {
-      "@shared/*": ["../shared/*"]
-    }
+    "allowImportingTsExtensions": true,
+    "types": ["node"]
   },
-  "include": ["**/*.ts", "**/*.tsx", "../shared/**/*.ts"]
+  "include": ["**/*.ts", "**/*.tsx"]
 }

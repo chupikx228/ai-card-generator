@@ -25,9 +25,13 @@ export type CardLibrary = {
   cards: StudyCard[]
 }
 
+export const MAX_CARD_TEXT_LENGTH = 500
+
 export const CARD_MESSAGES = {
   emptyQuestion: 'Введіть текст питання.',
   emptyAnswer: 'Введіть відповідь.',
+  questionTooLong: `Питання не повинно перевищувати ${MAX_CARD_TEXT_LENGTH} символів.`,
+  answerTooLong: `Відповідь не повинна перевищувати ${MAX_CARD_TEXT_LENGTH} символів.`,
   added: 'Картку додано.',
   updated: 'Картку оновлено.',
   deleted: 'Картку видалено.',

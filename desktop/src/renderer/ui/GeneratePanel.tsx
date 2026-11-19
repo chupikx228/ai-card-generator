@@ -5,9 +5,10 @@ import {
   type DeckLanguage,
   deckToStudyCards,
   getGenerationErrorMessage,
+  pickDistinct,
   TOPIC_LIMITS,
-} from '@shared/decks'
-import type { DeckRecord } from '@shared/study-cards'
+} from '@deckly/shared/decks'
+import type { DeckRecord } from '@deckly/shared/study-cards'
 import type { CardDraft } from '../../ipc/contract'
 import { cn, pluralCards } from '../lib/text'
 import { PreviewDraft, type PreviewDraftItem } from './PreviewDraft'
@@ -31,16 +32,6 @@ type Stage =
 const SLOW_HINT_MS = 6000
 const REGENERATE_COUNT = CARD_COUNT_OPTIONS[0]
 const REGENERATE_EMPTY = 'ШІ повернув лише схожі картки. Спробуйте ще раз.'
-
-const SIMILARITY_LIMIT = 0.6
-
-const toWords = (text: string): Set<string> => new Set(text.toLowerCase().match(/[\p{L}\p{N}]+/gu) ?? [])
-
-const isSimilar = (left: Set<string>, right: Set<string>): boolean => {
-  const common = [...left].filter((word) => right.has(word)).length
-  const union = left.size + right.size - common
-  return union === 0 || common / union >= SIMILARITY_LIMIT
-}
 
 const LANGUAGES: Array<{ id: DeckLanguage; label: string }> = [
   { id: 'uk', label: 'Українська' },
@@ -83,7 +74,22 @@ export const GeneratePanel = ({ decks, defaultDeckId, onSave, onSaved, onClose }
   const [stage, setStage] = useState<Stage>({ name: 'form', error: null })
   const [slow, setSlow] = useState(false)
   const [editingKey, setEditingKey] = useState<number | null>(null)
-  const requestId = useRef(0)
+  const requests = useRef(new Set<string>())
+
+  const cancelAll = () => {
+    requests.current.forEach((id) => void window.cardsAPI.cancelGenerate(id))
+    requests.current.clear()
+  }
+
+  const startRequest = (): string => {
+    const id = crypto.randomUUID()
+    requests.current.add(id)
+    return id
+  }
+
+  const finishRequest = (id: string): boolean => requests.current.delete(id)
+
+  useEffect(() => cancelAll, [])
 
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
@@ -94,7 +100,6 @@ export const GeneratePanel = ({ decks, defaultDeckId, onSave, onSaved, onClose }
     window.addEventListener('keydown', handleKey)
     return () => {
       window.removeEventListener('keydown', handleKey)
-      requestId.current += 1
     }
   }, [onClose])
 
@@ -112,11 +117,12 @@ export const GeneratePanel = ({ decks, defaultDeckId, onSave, onSaved, onClose }
       setStage({ name: 'form', error: `Опишіть тему хоча б ${TOPIC_LIMITS.minLength} символами.` })
       return
     }
-    const current = ++requestId.current
+    cancelAll()
+    const id = startRequest()
     setEditingKey(null)
     setStage({ name: 'loading' })
-    const result = await window.cardsAPI.generateDeck({ topic: subject, mode: 'qa', language, count })
-    if (current !== requestId.current) {
+    const result = await window.cardsAPI.generateDeck({ topic: subject, mode: 'qa', language, count }, id)
+    if (!finishRequest(id)) {
       return
     }
     if (!result.ok) {
@@ -157,21 +163,21 @@ export const GeneratePanel = ({ decks, defaultDeckId, onSave, onSaved, onClose }
     if (stage.name !== 'preview') {
       return
     }
-    const taken = stage.drafts.map((draft) => toWords(draft.question))
-    const session = requestId.current
+    const taken = stage.drafts.map((draft) => draft.question)
+    const id = startRequest()
     updateDraft(key, (draft) => ({ ...draft, busy: true, error: null }))
-    const result = await window.cardsAPI.generateDeck({ topic: subject, mode: 'qa', language, count: REGENERATE_COUNT })
-    if (session !== requestId.current) {
+    const result = await window.cardsAPI.generateDeck(
+      { topic: subject, mode: 'qa', language, count: REGENERATE_COUNT },
+      id,
+    )
+    if (!finishRequest(id)) {
       return
     }
     if (!result.ok) {
       updateDraft(key, (draft) => ({ ...draft, busy: false, error: getGenerationErrorMessage(result.code) }))
       return
     }
-    const fresh = deckToStudyCards(result.deck, 'Інше').find((card) => {
-      const words = toWords(card.question)
-      return !taken.some((existing) => isSimilar(existing, words))
-    })
+    const fresh = pickDistinct(deckToStudyCards(result.deck, 'Інше'), taken)
     updateDraft(key, (draft) =>
       fresh
         ? { ...draft, question: fresh.question, answer: fresh.answer, selected: true, busy: false, error: null }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { StudyCard } from '@shared/study-cards'
+import type { StudyCard } from '@deckly/shared/study-cards'
 import { pluralCards } from '../lib/text'
 import { AnswerFace, QuestionFace } from './CardFaces'
 import { FlashCard } from './FlashCard'

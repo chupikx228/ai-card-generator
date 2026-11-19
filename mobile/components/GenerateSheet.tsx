@@ -7,9 +7,9 @@ import {
   getGenerationErrorMessage,
   pickDistinct,
   TOPIC_LIMITS,
-} from '@shared/decks'
-import { pluralCards } from '@shared/study-cards'
-import type { CardDraft, DeckSummary } from '@shared/storage'
+} from '@deckly/shared/decks'
+import { pluralCards } from '@deckly/shared/study-cards'
+import type { CardDraft, DeckSummary } from '@deckly/shared/storage'
 import { generateDeck, loadSettings, saveSettings } from '../api/generate'
 import { colors, fonts } from '../theme'
 import { BottomSheet } from './BottomSheet'

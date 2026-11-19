@@ -10,11 +10,6 @@ export default defineConfig(({ mode }) => {
   const entry = mode === 'preload' ? 'preload' : 'main'
 
   return {
-    resolve: {
-      alias: {
-        '@shared': fileURLToPath(new URL('../shared', import.meta.url)),
-      },
-    },
     ssr: {
       noExternal: true,
     },

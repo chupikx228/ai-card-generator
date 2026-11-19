@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.ts",
   "dependencies": {
+    "@deckly/shared": "*",
     "@expo-google-fonts/literata": "^0.4.3",
     "@expo-google-fonts/manrope": "^0.4.3",
     "expo": "~58.0.23",

@@ -14,8 +14,14 @@ export default defineConfig({
     tailwindcss(),
   ],
   resolve: {
+    dedupe: ['zod'],
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+  server: {
+    fs: {
+      allow: ['.', '../shared'],
     },
   },
 })

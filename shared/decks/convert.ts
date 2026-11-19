@@ -1,5 +1,5 @@
-import type { NewStudyCard, Topic } from '../study-cards/model'
-import type { Deck } from './model'
+import type { NewStudyCard, Topic } from '../study-cards/model.ts'
+import type { Deck } from './model.ts'
 
 const TRUE_LABEL = 'Правда'
 const FALSE_LABEL = 'Неправда'

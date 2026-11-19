@@ -1,4 +1,4 @@
-import { colors } from '@shared/theme/colors'
+import { colors } from '@deckly/shared/theme/colors'
 
 export { colors }
 

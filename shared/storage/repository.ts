@@ -1,6 +1,6 @@
-import { DEFAULT_DECK_TITLE, type StudyCard, type Topic } from '../study-cards/model'
-import { isTopic, validateCard } from '../study-cards/logic'
-import { createDeck, validateDeckTitle } from '../study-cards/library'
+import { DEFAULT_DECK_TITLE, type StudyCard, type Topic } from '../study-cards/model.ts'
+import { isTopic, validateCard } from '../study-cards/logic.ts'
+import { createDeck, validateDeckTitle } from '../study-cards/library.ts'
 import type {
   AddCardsResult,
   CardDraft,
@@ -13,7 +13,7 @@ import type {
   SqlDatabase,
   SqlValue,
   Stats,
-} from './types'
+} from './types.ts'
 
 const CARD_TOPIC: Topic = 'Інше'
 const MAX_PAGE = 500

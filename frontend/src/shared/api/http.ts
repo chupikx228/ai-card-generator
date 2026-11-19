@@ -1,12 +1,8 @@
 import { z } from 'zod'
 import { API_URL } from '@/shared/config'
+import { apiErrorBodySchema } from '@deckly/shared/decks/schema'
 import { ApiError, CLIENT_ERROR_CODES } from './api-error'
 
-const errorBodySchema = z.object({
-  statusCode: z.number(),
-  code: z.string(),
-  message: z.string(),
-})
 
 const readJson = async (response: Response): Promise<unknown> => {
   try {
@@ -32,7 +28,7 @@ const request = async <T>(path: string, schema: z.ZodType<T>, init: RequestInit)
   const body = await readJson(response)
 
   if (!response.ok) {
-    const error = errorBodySchema.safeParse(body)
+    const error = apiErrorBodySchema.safeParse(body)
     throw error.success
       ? new ApiError(response.status, error.data.code, error.data.message)
       : new ApiError(response.status, CLIENT_ERROR_CODES.unknown, `Request failed with ${response.status}`)
